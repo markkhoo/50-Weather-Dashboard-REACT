@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from "react";
 import Header from "./components/header/header";
+import API from "./utils/API";
 
 import './App.css';
 
@@ -13,7 +14,11 @@ function App() {
 
   const submitCity = event => {
     event.preventDefault();
-    // console.log("city submitted");
+    // console.log(getCity);
+
+    API.searchCity(getCity).then(res => {
+      console.log(res)
+    }).catch(err => console.log(err))
   };
 
   return (
