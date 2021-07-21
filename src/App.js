@@ -8,32 +8,31 @@ function App() {
 
   const writeCity = event => {
     setCity(event.target.value.toLowerCase());
-
     // console.log(getCity);
   };
 
   const submitCity = event => {
     event.preventDefault();
-
     // console.log("city submitted");
   };
 
   return (
-    <div>
+    <>
       <Header />
 
-      <form
-        onSubmit={submitCity}
-      >
+      <form onSubmit={submitCity} >
         <input
           type="text"
           onChange={writeCity}
-
           placeholder="San Francisco"
+        />
+        <input 
+          type="submit"
+          value="Submit"
         />
       </form>
 
-    </div>
+    </>
   );
 }
 
