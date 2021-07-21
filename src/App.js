@@ -5,7 +5,31 @@ import API from "./utils/API";
 import './App.css';
 
 function App() {
-  const [getCity, setCity] = useState([]);
+  const [getCity, setCity] = useState("");
+  const [getUnit, setUnit] = useState("imperial");
+
+  useEffect(() => {
+    let lastCity = JSON.parse(localStorage.getItem("last_city"));
+
+    if (lastCity != null) {
+      findWeather(lastCity, getUnit);
+    } else {
+      localStorage.setItem("last_city", JSON.stringify("San Francisco"));
+      findWeather("San Francisco", getUnit);
+    };
+  }, []);
+
+  const findWeather = (city, units) => {
+    if (city) {
+
+      API.searchCity(city, units).then(res => {
+        console.log(res.data)
+      }).catch(err => console.log(err))
+
+    } else {
+      console.log("invalid input")
+    }
+  };
 
   const writeCity = event => {
     setCity(event.target.value.toLowerCase());
@@ -14,11 +38,8 @@ function App() {
 
   const submitCity = event => {
     event.preventDefault();
-    // console.log(getCity);
-
-    API.searchCity(getCity).then(res => {
-      console.log(res)
-    }).catch(err => console.log(err))
+    findWeather(getCity, getUnit);
+    localStorage.setItem("last_city", JSON.stringify(getCity));
   };
 
   return (
