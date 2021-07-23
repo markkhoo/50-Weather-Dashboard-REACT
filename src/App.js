@@ -33,7 +33,6 @@ function App() {
 
   const writeCity = event => {
     setCity(event.target.value.toLowerCase());
-    // console.log(getCity);
   };
 
   const submitCity = event => {
@@ -42,9 +41,22 @@ function App() {
     localStorage.setItem("last_city", JSON.stringify(getCity));
   };
 
+  const changeUnits = () => {
+    if (getUnit === "imperial") {
+      setUnit("metric");
+    } else if (getUnit === "metric") {
+      setUnit("imperial");
+    } else {
+      setUnit("imperial");
+    };
+    findWeather(JSON.parse(localStorage.getItem("last_city")),getUnit);
+  };
+
   return (
     <>
       <Header />
+
+      <button type="button" onClick={changeUnits}>Change Units</button>
 
       <form onSubmit={submitCity} >
         <input
@@ -52,7 +64,7 @@ function App() {
           onChange={writeCity}
           placeholder="San Francisco"
         />
-        <input 
+        <input
           type="submit"
           value="Submit"
         />
