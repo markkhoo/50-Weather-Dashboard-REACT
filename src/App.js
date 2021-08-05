@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from "react";
 import Header from "./components/header/header";
+import Footer from "./components/footer/footer";
 import API from "./utils/API";
 
 import './App.css';
@@ -49,28 +50,39 @@ function App() {
     } else {
       setUnit("imperial");
     };
-    findWeather(JSON.parse(localStorage.getItem("last_city")),getUnit);
+    findWeather(JSON.parse(localStorage.getItem("last_city")), getUnit);
   };
 
   return (
-    <>
+    <div id="root-child">
       <Header />
+      <div className="main">
+        <div className="left-col">
+          <div>
+            <form onSubmit={submitCity} >
+              <input
+                type="text"
+                onChange={writeCity}
+                placeholder="San Francisco"
+              />
+              <input
+                type="submit"
+                value="Submit"
+              />
+            </form>
+            <button type="button" onClick={changeUnits}>Change Units</button>
+          </div>
+          <div>
 
-      <button type="button" onClick={changeUnits}>Change Units</button>
+          </div>
 
-      <form onSubmit={submitCity} >
-        <input
-          type="text"
-          onChange={writeCity}
-          placeholder="San Francisco"
-        />
-        <input
-          type="submit"
-          value="Submit"
-        />
-      </form>
+        </div>
+        <div className="right">
 
-    </>
+        </div>
+      </div>
+      <Footer />
+    </div>
   );
 }
 
