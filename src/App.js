@@ -16,7 +16,7 @@ function App() {
       findWeather(lastCity, getUnit);
     } else {
       localStorage.setItem("last_city", JSON.stringify("San Francisco"));
-      findWeather("San Francisco", getUnit);
+      findWeather("San Francisco, CA", getUnit);
     };
   }, []);
 
@@ -58,7 +58,7 @@ function App() {
       <Header />
       <div className="main">
         <div className="left-col">
-          <div>
+          <div className="search-container">
             <form onSubmit={submitCity} >
               <input
                 type="text"
@@ -72,7 +72,7 @@ function App() {
             </form>
             <button type="button" onClick={changeUnits}>Change Units</button>
           </div>
-          <div>
+          <div className="history-container">
 
           </div>
 

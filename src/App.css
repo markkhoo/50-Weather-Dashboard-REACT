@@ -10,5 +10,22 @@ p {
 }
 
 .main {
-  background-color: antiquewhite;
+  display: grid;
+  grid-template-columns: 20em 1fr;
+  background-color: white;
+}
+
+.left-col {
+  background-color: rgb(245, 245, 245);
+}
+
+.search-container {
+  background-color: beige;
+  margin: 1.00em;
+}
+
+.history-container {
+  background-color: beige;
+  height: 100%;
+  margin: 0em 1.00em;
 }
