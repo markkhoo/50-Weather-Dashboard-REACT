@@ -24,11 +24,15 @@ function App() {
     if (city) {
 
       API.searchCity(city, units).then(res => {
-        console.log(res.data)
+        // Store last search at valid search event
+        localStorage.setItem("last_city", JSON.stringify(getCity));
+
+        //
+        console.log(res.data);
       }).catch(err => {
         console.log(`"${city}" is an invalid input`);
         console.log(err);
-      })
+      });
 
     } else {
       console.log("invalid input")
@@ -42,7 +46,6 @@ function App() {
   const submitCity = event => {
     event.preventDefault();
     findWeather(getCity, getUnit);
-    localStorage.setItem("last_city", JSON.stringify(getCity));
   };
 
   const changeUnits = () => {
