@@ -16,7 +16,7 @@ function App() {
       findWeather(lastCity, getUnit);
     } else {
       localStorage.setItem("last_city", JSON.stringify("San Francisco"));
-      findWeather("San Francisco, CA", getUnit);
+      findWeather("San Francisco", getUnit);
     };
   }, []);
 
@@ -25,7 +25,10 @@ function App() {
 
       API.searchCity(city, units).then(res => {
         console.log(res.data)
-      }).catch(err => console.log(err))
+      }).catch(err => {
+        console.log(`"${city}" is an invalid input`);
+        console.log(err);
+      })
 
     } else {
       console.log("invalid input")
