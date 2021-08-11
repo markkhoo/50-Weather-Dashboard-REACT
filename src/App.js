@@ -1,4 +1,5 @@
 import { React, useState, useEffect } from "react";
+import HistoryButton from "./components/history_button/history_button";
 import Header from "./components/header/header";
 import Footer from "./components/footer/footer";
 import API from "./utils/API";
@@ -12,7 +13,7 @@ function App() {
   useEffect(() => {
     let lastCity = JSON.parse(localStorage.getItem("last_city"));
 
-    if (lastCity != null) {
+    if (lastCity !== (null || "")) {
       findWeather(lastCity, getUnit);
     } else {
       localStorage.setItem("last_city", JSON.stringify("San Francisco"));
@@ -79,7 +80,7 @@ function App() {
             <button type="button" onClick={changeUnits}>Change Units</button>
           </div>
           <div className="history-container">
-
+            <HistoryButton />
           </div>
 
         </div>
