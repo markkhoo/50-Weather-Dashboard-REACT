@@ -13,7 +13,7 @@ function App() {
   useEffect(() => {
     let lastCity = JSON.parse(localStorage.getItem("last_city"));
 
-    if (lastCity !== (null || "")) {
+    if (lastCity !== (null)) {
       findWeather(lastCity, getUnit);
     } else {
       localStorage.setItem("last_city", JSON.stringify("San Francisco"));
@@ -26,7 +26,9 @@ function App() {
 
       API.searchCity(city, units).then(res => {
         // Store last search at valid search event
-        localStorage.setItem("last_city", JSON.stringify(getCity));
+        if (city !== "") {
+          localStorage.setItem("last_city", JSON.stringify(city));
+        }
 
         //
         console.log(res.data);
