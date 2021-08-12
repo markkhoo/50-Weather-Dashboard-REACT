@@ -1,5 +1,4 @@
 import { React, useState, useEffect } from "react";
-import HistoryButton from "./components/history_button/history_button";
 import Header from "./components/header/header";
 import Footer from "./components/footer/footer";
 import API from "./utils/API";
@@ -9,8 +8,10 @@ import './App.css';
 function App() {
   const [getCity, setCity] = useState("");
   const [getUnit, setUnit] = useState("imperial");
-  // const [getStor, setStor] = useState([]);
+  const [getStor, setStor] = useState([]);
+  const [getFlag, setFlag] = useState(0);
 
+  // This useEffect runs when the page initiallizes
   useEffect(() => {
 
     // Checks Last City
@@ -26,7 +27,19 @@ function App() {
       localStorage.setItem("stored_searches", JSON.stringify(["san francisco"]));
     };
 
-  }, []);
+    // Queue for flag change
+    changeFlag();
+
+  }, []); // The empty array here is important so the useEffect doesn't run again
+
+  // This useEffect stores recent searches into a state and update on flag change
+  useEffect(() => {
+
+    //
+    let searches = JSON.parse(localStorage.getItem("stored_searches"));
+    setStor(searches);
+
+  }, [getFlag]);
 
   const findWeather = (city, units) => {
     if (city && !(city === JSON.parse(localStorage.getItem("last_city")))) {
@@ -43,6 +56,9 @@ function App() {
           searchesArray.push(city);
           localStorage.setItem("stored_searches", JSON.stringify(searchesArray));
         };
+
+        // Queue for flag change
+        changeFlag();
 
         //
         console.log(res.data);
@@ -74,11 +90,17 @@ function App() {
     findWeather(JSON.parse(localStorage.getItem("last_city")), getUnit);
   };
 
+  const changeFlag = () => {
+    let randomInt = Math.floor(Math.random() * 10) + 1;
+    setFlag(randomInt);
+  };
+
   return (
     <div id="root-child">
       <Header />
       <div className="main">
         <div className="left-col">
+
           <div className="search-container">
             <form onSubmit={submitCity} >
               <input
@@ -93,11 +115,23 @@ function App() {
             </form>
             <button type="button" onClick={changeUnits}>Change Units</button>
           </div>
+
           <div className="history-container">
-            <HistoryButton />
+            {getStor.map(item => {
+              return (
+                <button
+                  key={item}
+                  onClick={() => {
+                    findWeather(item, getUnit);
+                    console.log(item);
+                  }}
+                >{item}</button>
+              )
+            })}
           </div>
 
         </div>
+
         <div className="right">
 
         </div>
