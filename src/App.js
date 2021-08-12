@@ -29,7 +29,7 @@ function App() {
   }, []);
 
   const findWeather = (city, units) => {
-    if (city) {
+    if (city && !(city === JSON.parse(localStorage.getItem("last_city")))) {
 
       API.searchCity(city, units).then(res => {
         // Store last search at valid search event
@@ -38,8 +38,6 @@ function App() {
         };
 
         // Store into recent Searches
-        console.log(JSON.parse(localStorage.getItem("stored_searches")));
-
         if (!(JSON.parse(localStorage.getItem("stored_searches")).includes(city))) {
           let searchesArray = JSON.parse(localStorage.getItem("stored_searches"));
           searchesArray.push(city);
@@ -53,9 +51,7 @@ function App() {
         console.log(err);
       });
 
-    } else {
-      console.log("invalid input")
-    }
+    };
   };
 
   const writeCity = event => {
