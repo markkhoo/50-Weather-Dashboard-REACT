@@ -9,16 +9,23 @@ import './App.css';
 function App() {
   const [getCity, setCity] = useState("");
   const [getUnit, setUnit] = useState("imperial");
+  // const [getStor, setStor] = useState([]);
 
   useEffect(() => {
-    let lastCity = JSON.parse(localStorage.getItem("last_city"));
 
-    if (lastCity !== (null)) {
-      findWeather(lastCity, getUnit);
+    // Checks Last City
+    if (localStorage.getItem("last_city")) {
+      findWeather(JSON.parse(localStorage.getItem("last_city")), getUnit);
     } else {
-      localStorage.setItem("last_city", JSON.stringify("San Francisco"));
-      findWeather("San Francisco", getUnit);
+      localStorage.setItem("last_city", JSON.stringify("san francisco"));
+      findWeather("san francisco", getUnit);
     };
+
+    // Adds Recent Search if empty
+    if (!(localStorage.getItem("stored_searches"))) {
+      localStorage.setItem("stored_searches", JSON.stringify(["san francisco"]));
+    };
+
   }, []);
 
   const findWeather = (city, units) => {
@@ -28,7 +35,16 @@ function App() {
         // Store last search at valid search event
         if (city !== "") {
           localStorage.setItem("last_city", JSON.stringify(city));
-        }
+        };
+
+        // Store into recent Searches
+        console.log(JSON.parse(localStorage.getItem("stored_searches")));
+
+        if (!(JSON.parse(localStorage.getItem("stored_searches")).includes(city))) {
+          let searchesArray = JSON.parse(localStorage.getItem("stored_searches"));
+          searchesArray.push(city);
+          localStorage.setItem("stored_searches", JSON.stringify(searchesArray));
+        };
 
         //
         console.log(res.data);
