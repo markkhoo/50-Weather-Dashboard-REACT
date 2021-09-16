@@ -26,6 +26,6 @@ p {
 
 .history-container {
   background-color: beige;
-  height: 100%;
+  height: auto;
   margin: 0em 1.00em;
 }
