@@ -9,17 +9,28 @@ function App() {
   const [getCity, setCity] = useState("");
   const [getUnit, setUnit] = useState("imperial");
   const [getStor, setStor] = useState([]);
-  const [getFlag, setFlag] = useState(0);
 
-  // This useEffect runs when the page initiallizes
   useEffect(() => {
 
     // Checks Last City
     if (localStorage.getItem("last_city")) {
-      findWeather(JSON.parse(localStorage.getItem("last_city")), getUnit);
+      findWeather(JSON.parse(localStorage.getItem("last_city")), "imperial", 1);
     } else {
       localStorage.setItem("last_city", JSON.stringify("san francisco"));
-      findWeather("san francisco", getUnit);
+      findWeather("san francisco", "imperial");
+    };
+    setCity(JSON.parse(localStorage.getItem("last_city")));
+
+    // Initiallizes the recent cities buttons
+    let searches = JSON.parse(localStorage.getItem("stored_searches"));
+    setStor(searches);
+
+  }, []);
+
+  useEffect(() => {
+
+    if (localStorage.getItem("last_city")) {
+      findWeather(JSON.parse(localStorage.getItem("last_city")), getUnit);
     };
 
     // Adds Recent Search if empty
@@ -27,22 +38,10 @@ function App() {
       localStorage.setItem("stored_searches", JSON.stringify(["san francisco"]));
     };
 
-    // Queue for flag change
-    changeFlag();
+  }, [getUnit]);
 
-  }, []); // The empty array here is important so the useEffect doesn't run again
-
-  // This useEffect stores recent searches into a state and update on flag change
-  useEffect(() => {
-
-    //
-    let searches = JSON.parse(localStorage.getItem("stored_searches"));
-    setStor(searches);
-
-  }, [getFlag]);
-
-  const findWeather = (city, units) => {
-    if (city && !(city === JSON.parse(localStorage.getItem("last_city")))) {
+  const findWeather = (city, units, forceSearch = 0) => {
+    if (city && !forceSearch) {
 
       API.searchCity(city, units).then(res => {
         // Store last search at valid search event
@@ -50,15 +49,13 @@ function App() {
           localStorage.setItem("last_city", JSON.stringify(city));
         };
 
-        // Store into recent Searches
+        // Stores Recent Searches 
         if (!(JSON.parse(localStorage.getItem("stored_searches")).includes(city))) {
           let searchesArray = JSON.parse(localStorage.getItem("stored_searches"));
           searchesArray.push(city);
           localStorage.setItem("stored_searches", JSON.stringify(searchesArray));
+          setStor(searchesArray);
         };
-
-        // Queue for flag change
-        changeFlag();
 
         //
         console.log(res.data);
@@ -76,7 +73,9 @@ function App() {
 
   const submitCity = event => {
     event.preventDefault();
-    findWeather(getCity, getUnit);
+    if (getCity !== JSON.parse(localStorage.getItem("last_city"))){
+      findWeather(getCity, getUnit);
+    }  
   };
 
   const changeUnits = () => {
@@ -87,12 +86,6 @@ function App() {
     } else {
       setUnit("imperial");
     };
-    findWeather(JSON.parse(localStorage.getItem("last_city")), getUnit);
-  };
-
-  const changeFlag = () => {
-    let randomInt = Math.floor(Math.random() * 10) + 1;
-    setFlag(randomInt);
   };
 
   return (
@@ -122,8 +115,10 @@ function App() {
                 <button
                   key={item}
                   onClick={() => {
-                    findWeather(item, getUnit);
-                    console.log(item);
+                    if (item !== JSON.parse(localStorage.getItem("last_city"))) {
+                      findWeather(item, getUnit);
+                    }
+                    // console.log(item);
                   }}
                 >{item}</button>
               )
