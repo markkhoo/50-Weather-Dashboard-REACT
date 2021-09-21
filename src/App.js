@@ -12,12 +12,9 @@ function App() {
 
   useEffect(() => {
 
-    // Checks Last City
-    if (localStorage.getItem("last_city")) {
-      findWeather(JSON.parse(localStorage.getItem("last_city")), "imperial", 1);
-    } else {
+    // Fills in city in Local Storage if none exists
+    if (!localStorage.getItem("last_city")) {
       localStorage.setItem("last_city", JSON.stringify("san francisco"));
-      findWeather("san francisco", "imperial");
     };
     setCity(JSON.parse(localStorage.getItem("last_city")));
 
@@ -29,9 +26,7 @@ function App() {
 
   useEffect(() => {
 
-    if (localStorage.getItem("last_city")) {
-      findWeather(JSON.parse(localStorage.getItem("last_city")), getUnit);
-    };
+    findWeather(JSON.parse(localStorage.getItem("last_city")), getUnit);
 
     // Adds Recent Search if empty
     if (!(localStorage.getItem("stored_searches"))) {
