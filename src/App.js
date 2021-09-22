@@ -20,6 +20,10 @@ function App() {
       icon: "",
       id: "",
       main: ""
+    },
+    coord: {
+      lat: 0,
+      lon: 0
     }
   });
 
@@ -59,19 +63,20 @@ function App() {
       API.searchCity(city, units).then(res => {
         // Store last search at valid search event
         if (city !== "") {
-          localStorage.setItem("last_city", JSON.stringify(city));
+          localStorage.setItem("last_city", JSON.stringify(res.data.name));
         };
 
         // Stores Recent Searches 
-        if (!(JSON.parse(localStorage.getItem("stored_searches")).includes(city))) {
+        if (!(JSON.parse(localStorage.getItem("stored_searches")).includes(res.data.name))) {
           let searchesArray = JSON.parse(localStorage.getItem("stored_searches"));
           searchesArray.push(res.data.name);
           localStorage.setItem("stored_searches", JSON.stringify(searchesArray));
           setStor(searchesArray);
         };
 
-        // console.log(res.data);
         setData(res.data);
+
+        return res.data
 
       }).catch(err => {
         console.log(`"${city}" is an invalid input`);
@@ -82,7 +87,10 @@ function App() {
   };
 
   const writeCity = event => {
-    setCity(event.target.value.replace(" ", "+").toLowerCase());
+    // This prevents queries by state and country.
+    // Currently this site is not set up to search by state or country
+    let cityOnly = event.target.value.replace(" ", "+").toLowerCase().split(",");
+    setCity(cityOnly[0]);
   };
 
   const submitCity = event => {
