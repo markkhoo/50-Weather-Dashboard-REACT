@@ -9,6 +9,19 @@ function App() {
   const [getCity, setCity] = useState("");
   const [getUnit, setUnit] = useState("imperial");
   const [getStor, setStor] = useState([]);
+  const [getData, setData] = useState({
+    name: "San Francisco",
+    main: {
+      temp: "",
+      humidity: ""
+    },
+    weather: {
+      description: "",
+      icon: "",
+      id: "",
+      main: ""
+    }
+  });
 
   useEffect(() => {
 
@@ -35,6 +48,10 @@ function App() {
 
   }, [getUnit]);
 
+  useEffect(() => {
+    console.log(getData)
+  }, [getData])
+
   const findWeather = (city, units, forceSearch = 0) => {
     if (city && !forceSearch) {
 
@@ -52,8 +69,9 @@ function App() {
           setStor(searchesArray);
         };
 
-        //
-        console.log(res.data);
+        // console.log(res.data);
+        setData(res.data);
+
       }).catch(err => {
         console.log(`"${city}" is an invalid input`);
         console.log(err);
@@ -68,9 +86,9 @@ function App() {
 
   const submitCity = event => {
     event.preventDefault();
-    if (getCity !== JSON.parse(localStorage.getItem("last_city"))){
+    if (getCity !== JSON.parse(localStorage.getItem("last_city"))) {
       findWeather(getCity, getUnit);
-    }  
+    }
   };
 
   const changeUnits = () => {
@@ -83,11 +101,26 @@ function App() {
     };
   };
 
+  const displayUnits = () => {
+    let answer = { temp: "", speed: "" };
+
+    if (getUnit === "imperial") {
+      answer.temp = "°F";
+      answer.speed = "mph"
+    } else if (getUnit === "metric") {
+      answer.temp = "°C";
+      answer.speed = "m/s"
+    };
+    // See https://openweathermap.org/current for Condition Codes
+
+    return answer
+  }
+
   return (
     <div id="root-child">
       <Header />
       <div className="main">
-        <div className="left-col">
+        <div className="left-nav">
 
           <div className="search-container">
             <form onSubmit={submitCity} >
@@ -123,7 +156,11 @@ function App() {
         </div>
 
         <div className="right">
-
+          <div className="current">
+            <h1>{getData.name}</h1>
+            <p>Tempurature: {getData.main.temp} {displayUnits().temp}</p>
+            <p>Humidity: {getData.main.humidity}%</p>
+          </div>
         </div>
       </div>
       <Footer />
