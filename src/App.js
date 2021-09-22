@@ -27,7 +27,7 @@ function App() {
 
     // Fills in city in Local Storage if none exists
     if (!localStorage.getItem("last_city")) {
-      localStorage.setItem("last_city", JSON.stringify("san francisco"));
+      localStorage.setItem("last_city", JSON.stringify("San Francisco"));
     };
     setCity(JSON.parse(localStorage.getItem("last_city")));
 
@@ -43,11 +43,12 @@ function App() {
 
     // Adds Recent Search if empty
     if (!(localStorage.getItem("stored_searches"))) {
-      localStorage.setItem("stored_searches", JSON.stringify(["san francisco"]));
+      localStorage.setItem("stored_searches", JSON.stringify(["San Francisco"]));
     };
 
   }, [getUnit]);
 
+  //
   useEffect(() => {
     console.log(getData)
   }, [getData])
@@ -64,7 +65,7 @@ function App() {
         // Stores Recent Searches 
         if (!(JSON.parse(localStorage.getItem("stored_searches")).includes(city))) {
           let searchesArray = JSON.parse(localStorage.getItem("stored_searches"));
-          searchesArray.push(city);
+          searchesArray.push(res.data.name);
           localStorage.setItem("stored_searches", JSON.stringify(searchesArray));
           setStor(searchesArray);
         };
@@ -81,7 +82,7 @@ function App() {
   };
 
   const writeCity = event => {
-    setCity(event.target.value.toLowerCase());
+    setCity(event.target.value.replace(" ", "+").toLowerCase());
   };
 
   const submitCity = event => {
@@ -138,19 +139,19 @@ function App() {
           </div>
 
           <div className="history-container">
-            {getStor.map(item => {
-              return (
-                <button
-                  key={item}
-                  onClick={() => {
-                    if (item !== JSON.parse(localStorage.getItem("last_city"))) {
-                      findWeather(item, getUnit);
-                    }
-                    // console.log(item);
-                  }}
-                >{item}</button>
-              )
-            })}
+            {getStor &&
+              getStor.map(item => {
+                return (
+                  <button
+                    key={item}
+                    onClick={() => {
+                      if (item !== JSON.parse(localStorage.getItem("last_city"))) {
+                        findWeather(item, getUnit);
+                      }
+                    }}
+                  >{item}</button>
+                )
+              })}
           </div>
 
         </div>
