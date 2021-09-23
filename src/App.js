@@ -207,6 +207,19 @@ function App() {
             <p>{timeConverter(getData.dt)}</p>
             <p>Tempurature: {getData.main.temp} {displayUnits().temp}</p>
             <p>Humidity: {getData.main.humidity}%</p>
+            <p>UV Index: {getDat2.current.uvi}</p>
+          </div>
+          <p>5 Day Forecast</p>
+          <div className="forecast">
+              {getDat2 &&
+                getDat2.daily.slice(1,6).map(item => {
+                  return (
+                    <div className="card">
+                      <p>{timeConverter(item.dt)}</p>
+                    </div>
+                  )
+                })
+              }
           </div>
         </div>
       </div>
