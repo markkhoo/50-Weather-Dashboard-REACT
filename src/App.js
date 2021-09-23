@@ -11,6 +11,7 @@ function App() {
   const [getStor, setStor] = useState([]);
   const [getData, setData] = useState({
     name: "San Francisco",
+    dt: 0,
     main: {
       temp: "",
       humidity: ""
@@ -25,6 +26,18 @@ function App() {
       lat: 0,
       lon: 0
     }
+  });
+  const [getDat2, setDat2] = useState({
+    current: { uvi: 0 },
+    daily: [
+      { 
+        dt: 0,
+        temp: {
+          max: 100,
+          min: 0
+        }
+      }
+    ]
   });
 
   useEffect(() => {
@@ -54,8 +67,8 @@ function App() {
 
   //
   useEffect(() => {
-    console.log(getData)
-  }, [getData])
+    console.log(getData, timeConverter(getData.dt), getDat2)
+  }, [getData, getDat2])
 
   const findWeather = (city, units, forceSearch = 0) => {
     if (city && !forceSearch) {
@@ -78,9 +91,19 @@ function App() {
 
         return res.data
 
+      }).then(data => {
+
+        // Borderline Callback Hell but only one time should be okay right?
+        API.searchLatLon(`${data.coord.lat}`,`${data.coord.lon}`, units).then(res => {
+
+          setDat2(res.data)
+
+        }).catch(err => {
+          console.log(err)
+        })
+
       }).catch(err => {
-        console.log(`"${city}" is an invalid input`);
-        console.log(err);
+        console.log(`"${city}" is an invalid input`, err);
       });
 
     };
@@ -123,6 +146,20 @@ function App() {
     // See https://openweathermap.org/current for Condition Codes
 
     return answer
+  };
+
+  const timeConverter = UNIX_timestamp =>{
+    var a = new Date(UNIX_timestamp * 1000);
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var year = a.getFullYear();
+    var month = months[a.getMonth()];
+    var day = a.getDate();
+    // var hour = a.getHours();
+    // var min = a.getMinutes();
+    // var sec = a.getSeconds();
+    // var time = day + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+    return `${month} ${day}, ${year}`;
+    // function from second top answer in https://stackoverflow.com/questions/847185/convert-a-unix-timestamp-to-time-in-javascript
   }
 
   return (
@@ -167,6 +204,7 @@ function App() {
         <div className="right">
           <div className="current">
             <h1>{getData.name}</h1>
+            <p>{timeConverter(getData.dt)}</p>
             <p>Tempurature: {getData.main.temp} {displayUnits().temp}</p>
             <p>Humidity: {getData.main.humidity}%</p>
           </div>
