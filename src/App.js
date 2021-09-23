@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from "react";
 import Header from "./components/header/header";
 import Footer from "./components/footer/footer";
+import Card from "./components/card/card";
 import API from "./utils/API";
 
 import './App.css';
@@ -35,7 +36,8 @@ function App() {
         temp: {
           max: 100,
           min: 0
-        }
+        },
+        humidity: 0
       }
     ]
   });
@@ -159,7 +161,6 @@ function App() {
     // var sec = a.getSeconds();
     // var time = day + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
     return `${month} ${day}, ${year}`;
-    // function from second top answer in https://stackoverflow.com/questions/847185/convert-a-unix-timestamp-to-time-in-javascript
   }
 
   return (
@@ -214,9 +215,13 @@ function App() {
               {getDat2 &&
                 getDat2.daily.slice(1,6).map(item => {
                   return (
-                    <div className="card">
-                      <p>{timeConverter(item.dt)}</p>
-                    </div>
+                    <Card
+                      key={`key-date-${item.dt}`}
+                      date={timeConverter(item.dt)}
+                      temp={`${item.temp.max} ${displayUnits().temp}`}
+                      humidity={`${item.humidity}%`}
+                      icon={item.weather[0].icon}
+                    />
                   )
                 })
               }
