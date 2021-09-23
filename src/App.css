@@ -9,13 +9,24 @@ p {
   grid-template-rows: auto 1fr auto;
 }
 
+.bold-font {
+  font-weight: 700;
+}
+
 .main {
-  display: grid;
-  grid-template-columns: 20em 1fr;
+  display: flex;
+  justify-content: center;
   background-color: white;
 }
 
-.left-nav {
+.container-xl {
+  display: grid;
+  grid-template-columns: 20em 1fr;
+  width: 100%;
+  max-width: 1280px;
+}
+
+.nav {
   background-color: rgb(245, 245, 245);
 }
 
@@ -28,4 +39,31 @@ p {
   background-color: beige;
   height: auto;
   margin: 0em 1.00em;
+}
+
+.info {
+  padding: 1em;
+}
+
+.current {
+  border: 2px solid rgb(245, 245, 245);
+  border-radius: 1em;
+  padding: 5em 0 5em 1em;
+  background-color: beige;
+}
+
+.current p {
+  font-size: large;
+  padding: 0.25em 0;
+}
+
+.info h2 {
+  padding: 1em 0 0.25em 0;
+}
+
+.forecast {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  justify-content: space-between;
+  background-color: beige;
 }

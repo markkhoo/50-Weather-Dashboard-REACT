@@ -29,11 +29,11 @@ function Card(props) {
 
     return(
         <div className="card" >
-            <p>{props.date}</p>
             <img 
                 src={`http://openweathermap.org/img/wn/${props.icon}@2x.png`}
                 alt={iconAltText(props.icon)}
             />
+            <p className="bold-font" >{props.date}</p>
             <p>Temp: {props.temp}</p>
             <p>Humidity: {props.humidity}</p>
         </div>

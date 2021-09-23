@@ -31,7 +31,7 @@ function App() {
   const [getDat2, setDat2] = useState({
     current: { uvi: 0 },
     daily: [
-      { 
+      {
         dt: 0,
         temp: {
           max: 100,
@@ -67,10 +67,9 @@ function App() {
 
   }, [getUnit]);
 
-  //
-  useEffect(() => {
-    console.log(getData, timeConverter(getData.dt), getDat2)
-  }, [getData, getDat2])
+  // useEffect(() => {
+  //   console.log(getData, timeConverter(getData.dt), getDat2)
+  // }, [getData, getDat2])
 
   const findWeather = (city, units, forceSearch = 0) => {
     if (city && !forceSearch) {
@@ -96,7 +95,7 @@ function App() {
       }).then(data => {
 
         // Borderline Callback Hell but only one time should be okay right?
-        API.searchLatLon(`${data.coord.lat}`,`${data.coord.lon}`, units).then(res => {
+        API.searchLatLon(`${data.coord.lat}`, `${data.coord.lon}`, units).then(res => {
 
           setDat2(res.data)
 
@@ -150,9 +149,9 @@ function App() {
     return answer
   };
 
-  const timeConverter = UNIX_timestamp =>{
+  const timeConverter = UNIX_timestamp => {
     var a = new Date(UNIX_timestamp * 1000);
-    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     var year = a.getFullYear();
     var month = months[a.getMonth()];
     var day = a.getDate();
@@ -167,53 +166,55 @@ function App() {
     <div id="root-child">
       <Header />
       <div className="main">
-        <div className="left-nav">
+        <div className="container-xl">
 
-          <div className="search-container">
-            <form onSubmit={submitCity} >
-              <input
-                type="text"
-                onChange={writeCity}
-                placeholder="San Francisco"
-              />
-              <input
-                type="submit"
-                value="Submit"
-              />
-            </form>
-            <button type="button" onClick={changeUnits}>Change Units</button>
+          <div className="nav">
+
+            <div className="search-container">
+              <form onSubmit={submitCity} >
+                <input
+                  type="text"
+                  onChange={writeCity}
+                  placeholder="San Francisco"
+                />
+                <input
+                  type="submit"
+                  value="Submit"
+                />
+              </form>
+              <button type="button" onClick={changeUnits}>Change Units</button>
+            </div>
+
+            <div className="history-container">
+              {getStor &&
+                getStor.map(item => {
+                  return (
+                    <button
+                      key={item}
+                      onClick={() => {
+                        if (item !== JSON.parse(localStorage.getItem("last_city"))) {
+                          findWeather(item, getUnit);
+                        }
+                      }}
+                    >{item}</button>
+                  )
+                })}
+            </div>
+
           </div>
 
-          <div className="history-container">
-            {getStor &&
-              getStor.map(item => {
-                return (
-                  <button
-                    key={item}
-                    onClick={() => {
-                      if (item !== JSON.parse(localStorage.getItem("last_city"))) {
-                        findWeather(item, getUnit);
-                      }
-                    }}
-                  >{item}</button>
-                )
-              })}
-          </div>
-
-        </div>
-
-        <div className="right">
-          <div className="current">
-            <h1>{getData.name}</h1>
-            <p>{timeConverter(getData.dt)}</p>
-            <p>Tempurature: {getData.main.temp} {displayUnits().temp}</p>
-            <p>Humidity: {getData.main.humidity}%</p>
-            <p>UV Index: {getDat2.current.uvi}</p>
-          </div>
-          <p>5 Day Forecast</p>
-          <div className="forecast">
+          <div className="info">
+            <div className="current">
+              <h1>{getData.name}</h1>
+              <p className="bold-font" >{timeConverter(getData.dt)}</p>
+              <p>Tempurature: {getData.main.temp} {displayUnits().temp}</p>
+              <p>Humidity: {getData.main.humidity}%</p>
+              <p>UV Index: {getDat2.current.uvi}</p>
+            </div>
+            <h2>5 Day Forecast</h2>
+            <div className="forecast">
               {getDat2 &&
-                getDat2.daily.slice(1,6).map(item => {
+                getDat2.daily.slice(1, 6).map(item => {
                   return (
                     <Card
                       key={`key-date-${item.dt}`}
@@ -225,8 +226,10 @@ function App() {
                   )
                 })
               }
+            </div>
           </div>
         </div>
+
       </div>
       <Footer />
     </div>
