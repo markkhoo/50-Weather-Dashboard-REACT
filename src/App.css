@@ -26,16 +26,11 @@ p {
   max-width: 1280px;
 }
 
-.nav {
-  /* background-color: rgb(245, 245, 245); */
-}
-
 .nav p {
   margin: 1em 0 0.5em 1em;
 }
 
 .search-container {
-  /* background-color: beige; */
   margin: 0.5em 1em 1em 1em;
 }
 
@@ -237,4 +232,12 @@ input[type=submit]:hover {
   background-size:     cover;
   background-repeat:   no-repeat;
   background-position: center center;
+}
+
+/* Media Queries */
+@media screen and (max-width: 972px){
+  .container-xl {
+    display: flex;
+    flex-direction: column;
+  }
 }
