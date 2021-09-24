@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/50-Weather-Dashboard-REACT/static/css/main.88d3c165.chunk.css",
+    "main.js": "/50-Weather-Dashboard-REACT/static/js/main.bf190c47.chunk.js",
+    "main.js.map": "/50-Weather-Dashboard-REACT/static/js/main.bf190c47.chunk.js.map",
+    "runtime-main.js": "/50-Weather-Dashboard-REACT/static/js/runtime-main.1b40943a.js",
+    "runtime-main.js.map": "/50-Weather-Dashboard-REACT/static/js/runtime-main.1b40943a.js.map",
+    "static/js/2.ad439fc6.chunk.js": "/50-Weather-Dashboard-REACT/static/js/2.ad439fc6.chunk.js",
+    "static/js/2.ad439fc6.chunk.js.map": "/50-Weather-Dashboard-REACT/static/js/2.ad439fc6.chunk.js.map",
+    "static/js/3.bc026c8a.chunk.js": "/50-Weather-Dashboard-REACT/static/js/3.bc026c8a.chunk.js",
+    "static/js/3.bc026c8a.chunk.js.map": "/50-Weather-Dashboard-REACT/static/js/3.bc026c8a.chunk.js.map",
+    "index.html": "/50-Weather-Dashboard-REACT/index.html",
+    "static/css/main.88d3c165.chunk.css.map": "/50-Weather-Dashboard-REACT/static/css/main.88d3c165.chunk.css.map",
+    "static/js/2.ad439fc6.chunk.js.LICENSE.txt": "/50-Weather-Dashboard-REACT/static/js/2.ad439fc6.chunk.js.LICENSE.txt",
+    "static/media/App.css": "/50-Weather-Dashboard-REACT/static/media/thunderstorm.31f74a79.jpeg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.1b40943a.js",
+    "static/js/2.ad439fc6.chunk.js",
+    "static/css/main.88d3c165.chunk.css",
+    "static/js/main.bf190c47.chunk.js"
+  ]
+}
