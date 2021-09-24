@@ -27,12 +27,65 @@ p {
 }
 
 .nav {
-  background-color: rgb(245, 245, 245);
+  /* background-color: rgb(245, 245, 245); */
+}
+
+.nav p {
+  margin: 1em 0 0.5em 1em;
 }
 
 .search-container {
   /* background-color: beige; */
-  margin: 1.00em;
+  margin: 0.5em 1em 1em 1em;
+}
+
+input[type=text] {
+  margin: 0;
+  padding: 0.25em;
+  width: 75%;
+  text-decoration: none;
+
+  border-width: 1px;
+  border-style: solid none solid solid;
+  border-top-left-radius: 0.5em;
+  border-bottom-left-radius: 0.5em;
+
+  border-color: #282c34;
+}
+
+input[type=submit] {
+  margin: 0;
+  padding: 0.25em;
+  width: 21%;
+  text-decoration: none;
+
+  border-width: 1px;
+  border-style: solid;
+  border-top-right-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
+
+  border-color: #282c34;
+
+  background-color: hsl(219, 70%, 96%);
+  color: hsl(217, 71%, 45%);
+}
+
+input[type=submit]:hover {
+  background-color: hsl(219, 100%, 93%);
+}
+
+.units {
+  padding: 0.25em 1em;
+  margin-top: 0.75em;
+  border: 1px solid #007765;
+  border-radius: 0.5em;
+
+  background-color: #ebfffc;
+  color: #007765;;
+}
+
+.units:hover {
+  background-color: #d1fff8;
 }
 
 .history-container {
@@ -40,20 +93,17 @@ p {
   margin: 0em 1.00em;
 }
 
-/* .history-container form {
-
-} */
-
 .history-container button {
   border: none;
-  border-radius: 2em;
-  margin: 0.125em;
-  padding: 0.5em 1.25em;
-  background-color: rgb(185, 229, 255);
+  border-radius: 1.5em;
+  margin: 0.125em 0.25em 0.125em 0;
+  padding: 0.25em .75em;
+  background-color: hsl(219, 70%, 96%);
+  color: hsl(217, 71%, 45%);
 }
 
 .history-container button:hover {
-  background-color: rgb(210, 238, 255);
+  background-color: hsl(219, 100%, 93%);
 }
 
 .info {

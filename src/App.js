@@ -214,6 +214,8 @@ function App() {
 
           <div className="nav">
 
+            <p>Search by City</p>
+
             <div className="search-container">
               <form onSubmit={submitCity} >
                 <input
@@ -226,8 +228,10 @@ function App() {
                   value="Submit"
                 />
               </form>
-              <button type="button" onClick={changeUnits}>Change Units</button>
+              <button className="units" type="button" onClick={changeUnits}>Change Units</button>
             </div>
+
+            <p>Recent Searches</p>
 
             <div className="history-container">
               {getStor &&
