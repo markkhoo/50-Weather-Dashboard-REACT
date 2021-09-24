@@ -17,12 +17,12 @@ function App() {
       temp: "",
       humidity: ""
     },
-    weather: {
+    weather: [{
       description: "",
-      icon: "",
+      icon: "loading",
       id: "",
       main: ""
-    },
+    }],
     coord: {
       lat: 0,
       lon: 0
@@ -37,7 +37,13 @@ function App() {
           max: 100,
           min: 0
         },
-        humidity: 0
+        humidity: 0,
+        weather: [{
+          description: "",
+          icon: "loading",
+          id: "",
+          main: ""
+        }]
       }
     ]
   });
@@ -162,6 +168,44 @@ function App() {
     return `${month} ${day}, ${year}`;
   }
 
+  const colorUV = uvi => {
+    if (uvi <= 2) {
+      return "UV-low"
+    } else if (uvi <= 5) {
+      return "UV-medium"
+    } else if (uvi <= 7) {
+      return "UV-high"
+    } else if (uvi <= 10) {
+      return "UV-extreme"
+    } else {
+      return "UV-indeterminate"
+    }
+  };
+
+  const imagePicker = code => {
+    if (code === "01d" || code === "01n") {
+      return `clear_sky`
+    } else if (code === "02d" || code === "02n") {
+      return `few_clouds`
+    } else if (code === "03d" || code === "03n") {
+      return `scattered_clouds`
+    } else if (code === "04d" || code === "04n") {
+      return `broken_clouds`
+    } else if (code === "09d" || code === "09n") {
+      return `shower_rain`
+    } else if (code === "10d" || code === "10n") {
+      return `rain`
+    } else if (code === "11d" || code === "11n") {
+      return `thunderstorm`
+    } else if (code === "13d" || code === "13n") {
+      return `snow`
+    } else if (code === "50d" || code === "50n") {
+      return `mist`
+    } else {
+      return `loading`
+    }
+  }
+
   return (
     <div id="root-child">
       <Header />
@@ -204,14 +248,17 @@ function App() {
           </div>
 
           <div className="info">
-            <div className="current">
+
+            <div className={`current ${imagePicker(getData.weather[0].icon)}`}>
               <h1>{getData.name}</h1>
               <p className="bold-font" >{timeConverter(getData.dt)}</p>
               <p>Tempurature: {getData.main.temp} {displayUnits().temp}</p>
               <p>Humidity: {getData.main.humidity}%</p>
-              <p>UV Index: {getDat2.current.uvi}</p>
+              <p>UV Index: <span className={`uv-block ${colorUV(getDat2.current.uvi)}`}>{getDat2.current.uvi}</span></p>
             </div>
+
             <h2>5 Day Forecast</h2>
+
             <div className="forecast">
               {getDat2 &&
                 getDat2.daily.slice(1, 6).map(item => {
@@ -227,6 +274,7 @@ function App() {
                 })
               }
             </div>
+
           </div>
         </div>
 
